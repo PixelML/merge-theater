@@ -1,0 +1,20 @@
+# The 397B "rematch": the SAME ingredients Rio used (Nex-N2-Pro post-trained on
+# Qwen3.5-397B-A17B), but a smarter recipe than their naive 0.6/0.4 linear blend.
+#
+# DARE-TIES keeps 60% of Nex's task vector over the Qwen base, randomly dropping +
+# rescaling the rest and sign-electing conflicts. Goal: beat Rio's element-wise
+# blend on the benchmarks using merge technique alone.
+# Verify:  python scripts/preflight.py --config configs/rio-rematch-397b.yaml
+#
+# EXPENSIVE: ~800GB download + ~800GB output + multi-GPU eval. This is the maximal
+# dunk, not the cheap demo. Start with configs/nex-mini-qwen36.yaml.
+merge_method: dare_ties
+base_model: Qwen/Qwen3.5-397B-A17B
+dtype: bfloat16
+parameters:
+  normalize: true
+models:
+  - model: nex-agi/Nex-N2-Pro
+    parameters:
+      weight: 0.6
+      density: 0.5

@@ -1,0 +1,12 @@
+merged/
+results/
+*.safetensors
+*.bin
+__pycache__/
+.venv/
+.DS_Store
+.env
+*.token
+
+# local-only writeups (post these on X; not shipped in the repo)
+docs/

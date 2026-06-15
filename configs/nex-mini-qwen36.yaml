@@ -1,0 +1,19 @@
+# THE one you wanted: Nex blended with the NEWER Qwen3.6 base instead of 3.5.
+#
+# Nex-N2-mini was post-trained on Qwen3.5-35B-A3B. Qwen3.6-35B-A3B keeps the exact
+# same skeleton (hidden 2048 / 40 layers / 256 experts / vocab 248320, same modeling
+# class) -> shapes match, so this element-wise blend is well-defined.
+# Verify:  python scripts/preflight.py --config configs/nex-mini-qwen36.yaml
+#
+# Caveat worth knowing: 3.6 changed the rope format, so a naive 50/50 may need ratio
+# tuning to actually *beat* both parents. The merge is defined; the win is empirical.
+# Sweep weights (e.g. 0.4/0.6, 0.3/0.7 toward 3.6) and keep the best on the eval table.
+merge_method: linear
+dtype: bfloat16
+models:
+  - model: nex-agi/Nex-N2-mini
+    parameters:
+      weight: 0.5
+  - model: Qwen/Qwen3.6-35B-A3B
+    parameters:
+      weight: 0.5

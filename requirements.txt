@@ -1,0 +1,9 @@
+lm-eval>=0.4.4
+huggingface_hub>=0.25
+transformers>=4.46
+accelerate
+torch
+safetensors
+numpy
+pyyaml
+modal
